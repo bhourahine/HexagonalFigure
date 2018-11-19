@@ -1,0 +1,92 @@
+\documentclass[tikz,border=1cm]{standalone} 
+\usepackage{tikz-3dplot} 
+
+\usepackage{fp}
+
+\newcommand{\mbtom}[5]{% converts from 4 to Cartesian 3 index in Wurtzite
+  \FPupn\ax{1.732051*#2+1.732051*#3}
+  \FPupn\ay{#3-#2}
+  \FPupn\az{4*1.63299316185545206546*#5}
+  \coordinate (#1) at (\ax,\ay,\az);
+}
+
+
+\begin{document}
+
+\tdplotsetmaincoords{0}{0}
+\begin{tikzpicture} [scale=.5, tdplot_main_coords, axis/.style={->,blue,thick}, 
+    vector/.style={-stealth,red,very thick}, vector
+    guide/.style={dashed,red,thick}]
+
+    
+  
+  \tdplotsetrotatedcoords{90}{75}{105}
+  \begin{scope}[tdplot_rotated_coords]
+
+    %\draw[-latex] (-7.5,0,0) -- (7.5,0,0)  node[above right]  {$x$};
+    %\draw[-latex] (0,-7.5,0) -- (0,7.5,0)  node[below] {$y$};
+    %\draw[-latex] (0,0,-7.5) -- (0,0,7.5)  node[above left]  {$z$};
+
+    % base hexagon
+    \mbtom{A}{2.0}{-1.0}{-1.0}{-0.5}
+    \mbtom{B}{1.0}{1.0}{-2.0}{-0.5}
+    \mbtom{C}{-1.0}{2.0}{-1.0}{-0.5}
+    \mbtom{D}{-2.0}{1.0}{1.0}{-0.5}
+    \mbtom{E}{-1.0}{-1.0}{2.0}{-0.5}
+    \mbtom{F}{1.0}{-2.0}{1.0}{-0.5}
+      
+    \mbtom{G}{2.0}{-1.0}{-1.0}{0.5}
+    \mbtom{H}{1.0}{1.0}{-2.0}{0.5}
+    \mbtom{I}{-1.0}{2.0}{-1.0}{0.5}
+    \mbtom{J}{-2.0}{1.0}{1.0}{0.5}
+    \mbtom{K}{-1.0}{-1.0}{2.0}{0.5}
+    \mbtom{L}{1.0}{-2.0}{1.0}{0.5}
+
+    %  B + sqrt(2)/2 * 01-10
+    \mbtom{marker3}{1.0}{1.707107}{-2.707107}{-.5}
+    % C + .5 D
+    \mbtom{marker4}{-2.0}{2.5}{-0.5}{-0.5}
+
+    \mbtom{O}{0}{0}{0}{0}
+    \mbtom{X}{1.5}{-1.5}{0}{0}
+    \mbtom{Y}{1.5}{0}{-1.5}{0}
+    \mbtom{Z}{0}{1.5}{-1.5}{0}
+    \mbtom{barX}{-1.5}{1.5}{0}{0}
+    \mbtom{barY}{-1.5}{0}{1.5}{0}
+    \mbtom{barZ}{0}{-1.5}{1.5}{0}
+
+    % Prism
+    \draw[fill=blue,opacity=0.1,thick](A) -- (B) -- (C) -- (D) -- (E) -- (F) -- (A);
+    \draw[fill=blue,opacity=0.1,thick] (G) -- (H) -- (I) -- (J) -- (K) -- (L) -- (G);
+    \draw[fill=blue,opacity=0.1,thick] (A) -- (G) -- (H) -- (B) -- (A);
+    \draw[fill=blue,opacity=0.1,thick] (B) -- (H) -- (I) -- (C) -- (B);
+    \draw[fill=blue,opacity=0.1,thick] (C) -- (I) -- (J) -- (D) -- (C);
+    \draw[fill=blue,opacity=0.1,thick] (D) -- (J) -- (K) -- (E) -- (D);
+    \draw[fill=blue,opacity=0.1,thick] (E) -- (K) -- (L) -- (F) -- (E);
+    \draw[fill=blue,opacity=0.1,thick] (F) -- (L) -- (G) -- (A) -- (F);
+
+    % Plane
+    \draw[fill=gray,opacity=0.45](G) -- (J) -- (C) -- (B) -- (G);
+
+    \draw [->,thick] (B) -- (marker3);
+    \draw [->,thick] (B) -- (marker4);
+
+    \draw [-,thick,opacity=0.1] (O) -- (X);
+    \draw [-,thick,opacity=.5] (O) -- (Y);
+    \draw [-,thick] (O) -- (Z);
+    \draw [-,thick] (O) -- (barX);
+    \draw [-,thick] (O) -- (barY);
+    \draw [-,thick,opacity=0.1] (O) -- (barZ);
+
+    \fill [red,opacity=0.1] (X) circle (4pt);  
+    \fill [red,opacity=.5] (Y) circle (4pt);  
+    \fill [red,opacity=1] (Z) circle (4pt);  
+    \fill [red] (barX) circle (4pt);  
+    \fill [red] (barY) circle (4pt);  
+    \fill [red,opacity=0.1] (barZ) circle (4pt);  
+
+  \end{scope}
+
+\end{tikzpicture}
+
+\end{document}
